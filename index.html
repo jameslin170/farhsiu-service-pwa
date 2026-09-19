@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#111111">
+
+<meta name="description"
+      content="華旭實業有限公司客服維修服務單">
+
+<link rel="manifest" href="manifest.json">
+
+<title>華旭客服維修服務單</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f2f2f2;
+    color: #222;
+    font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        Arial,
+        sans-serif;
+}
+
+.app {
+    max-width: 900px;
+    margin: auto;
+    padding: 12px;
+}
+
+.header {
+    background: #111;
+    color: white;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.header p {
+    margin: 5px 0 0;
+    font-size: 14px;
+}
+
+.card {
+    background: white;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 9px;
+    box-shadow: 0 2px 7px rgba(0,0,0,.08);
+}
+
+.card h2 {
+    font-size: 18px;
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #222;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 11px;
+    font-size: 16px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-family: inherit;
+    background: white;
+}
+
+textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #111;
+}
+
+.hours {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.hours input {
+    background: #f4f4f4;
+    font-weight: bold;
+}
+
+.info {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.parts {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.parts th,
+.parts td {
+    border: 1px solid #aaa;
+    padding: 6px;
+}
+
+.parts th {
+    background: #eee;
+}
+
+.parts input {
+    border: none;
+    padding: 7px;
+}
+
+.btn {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.btn-dark {
+    background: #111;
+    color: white;
+}
+
+.btn-gray {
+    background: #777;
+    color: white;
+}
+
+.btn-danger {
+    background: #777;
+    color: white;
+}
+
+.signature-box {
+    border: 1px solid #999;
+    background: white;
+    width: 100%;
+}
+
+#signatureCanvas {
+    width: 100%;
+    height: 180px;
+    display: block;
+    touch-action: none;
+}
+
+.action {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    padding: 10px 0;
+    background: rgba(242,242,242,.96);
+}
+
+.main-btn {
+    width: 100%;
+    padding: 15px;
+    background: #111;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.save-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    background: #ddd;
+    border: none;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+.status {
+    text-align: center;
+    color: #555;
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+/* ==========================
+   A4 PRINT
+========================== */
+
+.print-form {
+    display: none;
+}
+
+@page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+}
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .app {
+        display: none !important;
+    }
+
+    .print-form {
+        display: block !important;
+        font-size: 10.5pt;
+    }
+
+    .print-title {
+        text-align: center;
+        margin-bottom: 4mm;
+    }
+
+    .company {
+        font-size: 17pt;
+        font-weight: bold;
+    }
+
+    .form-title {
+        font-size: 15pt;
+        font-weight: bold;
+        margin-top: 2mm;
+    }
+
+    .english {
+        font-size: 8pt;
+        color: #555;
+    }
+
+    table.print-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    table.print-table th,
+    table.print-table td {
+        border: .5pt solid #333;
+        padding: 2.2mm;
+        vertical-align: middle;
+        word-wrap: break-word;
+    }
+
+    table.print-table th {
+        background: #eee !important;
+        text-align: center;
+    }
+
+    .section {
+        background: #e5e5e5 !important;
+        font-weight: bold;
+    }
+
+    .problem {
+        min-height: 18mm;
+        white-space: pre-wrap;
+    }
+
+    .treatment {
+        min-height: 42mm;
+        white-space: pre-wrap;
+    }
+
+    .notes {
+        min-height: 20mm;
+        white-space: pre-wrap;
+    }
+
+    .signature-cell {
+        height: 42mm;
+        text-align: center;
+    }
+
+    .signature-image {
+        max-width: 100%;
+        max-height: 35mm;
+    }
+
+    tr {
+        page-break-inside: avoid;
+    }
+
+    .footer {
+        margin-top: 3mm;
+        font-size: 8pt;
+        color: #555;
+    }
+}
+
+@media(max-width:600px) {
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+
+    .hours {
+        grid-template-columns: 1fr;
+    }
+
+    .parts {
+        font-size: 13px;
+    }
+
+    .parts th,
+    .parts td {
+        padding: 4px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ==================================================
+     APP
+================================================== -->
+
+<div class="app">
+
+    <div class="header">
+
+        <h1>華旭實業有限公司</h1>
+
+        <p>
+            FAR HSIU ENTERPRISE CO., LTD.
+            ｜客服維修服務單
+        </p>
+
+    </div>
+
+
+    <!-- 基本資料 -->
+
+    <div class="card">
+
+        <h2>一、基本資料</h2>
+
+        <div class="grid">
+
+            <div class="field">
+                <label>客戶名稱</label>
+                <input id="customer">
+            </div>
+
+            <div class="field">
+                <label>機型</label>
+                <input id="machine">
+            </div>
+
+            <div class="field">
+                <label>設備編號 / Asset No.</label>
+                <input id="asset">
+            </div>
+
+            <div class="field">
+                <label>服務單號</label>
+                <input id="serviceNo">
+            </div>
+
+            <div class="field">
+                <label>工程師姓名</label>
+                <input id="engineer">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- 服務時間 -->
+
+    <div class="card">
+
+        <h2>二、服務時間</h2>
+
+        <div class="grid">
+
+            <div class="field">
+                <label>開始日期</label>
+                <input type="date" id="startDate">
+            </div>
+
+            <div class="field">
+                <label>開始時間</label>
+                <input type="time" id="startTime">
+            </div>
+
+            <div class="field">
+                <label>結束日期</label>
+                <input type="date" id="endDate">
+            </div>
+
+            <div class="field">
+                <label>結束時間</label>
+                <input type="time" id="endTime">
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="hours">
+
+            <div class="field">
+                <label>正常工時</label>
+                <input
+                    type="number"
+                    id="normalHours"
+                    step="0.5"
+                    min="0">
+            </div>
+
+            <div class="field">
+                <label>加班工時</label>
+                <input
+                    type="number"
+                    id="overtimeHours"
+                    step="0.5"
+                    min="0">
+            </div>
+
+            <div class="field">
+                <label>總工時</label>
+                <input
+                    type="number"
+                    id="totalHours"
+                    readonly>
+            </div>
+
+        </div>
+
+        <p class="info">
+            正常工作時間：08:30～17:30，不扣午休。
+            系統依開始／結束時間自動計算正常工時及加班工時。
+            正常工時與加班工時也可以手動修改。
+        </p>
+
+    </div>
+
+
+    <!-- 故障 -->
+
+    <div class="card">
+
+        <h2>三、故障現象</h2>
+
+        <textarea
+            id="problem"
+            placeholder="請填寫客戶反映的故障現象"></textarea>
+
+    </div>
+
+
+    <!-- 處理 -->
+
+    <div class="card">
+
+        <h2>四、檢查與處理內容</h2>
+
+        <textarea
+            id="treatment"
+            style="min-height:220px;"
+            placeholder="請填寫檢查結果、故障原因、處理方式及測試結果"></textarea>
+
+    </div>
+
+
+    <!-- 零件 -->
+
+    <div class="card">
+
+        <h2>五、更換零件</h2>
+
+        <table class="parts">
+
+            <thead>
+
+                <tr>
+                    <th>零件名稱</th>
+                    <th>P/N</th>
+                    <th style="width:70px;">數量</th>
+                    <th style="width:60px;">刪除</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="partsBody"></tbody>
+
+        </table>
+
+        <br>
+
+        <button
+            class="btn btn-dark"
+            onclick="addPart()">
+            ＋ 新增零件
+        </button>
+
+    </div>
+
+
+    <!-- 備註 -->
+
+    <div class="card">
+
+        <h2>六、備註</h2>
+
+        <textarea id="notes"></textarea>
+
+    </div>
+
+
+    <!-- 客戶簽名 -->
+
+    <div class="card">
+
+        <h2>七、客戶確認</h2>
+
+        <div class="field">
+
+            <label>客戶簽名人</label>
+
+            <input id="signer">
+
+        </div>
+
+        <br>
+
+        <label>客戶簽名</label>
+
+        <div class="signature-box">
+
+            <canvas id="signatureCanvas"></canvas>
+
+        </div>
+
+        <br>
+
+        <button
+            class="btn btn-gray"
+            onclick="clearSignature()">
+            清除簽名
+        </button>
+
+        <br><br>
+
+        <div class="grid">
+
+            <div class="field">
+                <label>簽名日期</label>
+                <input id="signDate" readonly>
+            </div>
+
+            <div class="field">
+                <label>簽名時間</label>
+                <input id="signTime" readonly>
+            </div>
+
+        </div>
+
+        <p class="info">
+            客戶第一次開始簽名時，系統會自動記錄日期與時間。
+        </p>
+
+    </div>
+
+
+    <!-- 操作 -->
+
+    <div class="action">
+
+        <button
+            class="main-btn"
+            onclick="preparePrint()">
+            🖨️ 列印／另存 A4 PDF
+        </button>
+
+        <button
+            class="save-btn"
+            onclick="saveData()">
+            💾 暫存目前服務單
+        </button>
+
+        <button
+            class="save-btn"
+            onclick="clearAll()">
+            清除全部資料
+        </button>
+
+        <div class="status" id="status"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     A4 PRINT FORM
+================================================== -->
+
+<div class="print-form">
+
+    <div class="print-title">
+
+        <div class="company">
+            華旭實業有限公司
+        </div>
+
+        <div class="form-title">
+            客服維修服務單
+        </div>
+
+        <div class="english">
+            FAR HSIU ENTERPRISE CO., LTD.
+        </div>
+
+    </div>
+
+
+    <table class="print-table">
+
+        <tr>
+            <th colspan="4" class="section">
+                基本資料
+            </th>
+        </tr>
+
+        <tr>
+            <th>客戶名稱</th>
+            <td id="pCustomer"></td>
+
+            <th>機型</th>
+            <td id="pMachine"></td>
+        </tr>
+
+        <tr>
+            <th>設備編號 / Asset No.</th>
+            <td id="pAsset"></td>
+
+            <th>服務單號</th>
+            <td id="pServiceNo"></td>
+        </tr>
+
+        <tr>
+            <th>工程師姓名</th>
+            <td id="pEngineer"></td>
+
+            <th>服務日期</th>
+            <td id="pServiceDate"></td>
+        </tr>
+
+        <tr>
+            <th>開始時間</th>
+            <td id="pStart"></td>
+
+            <th>結束時間</th>
+            <td id="pEnd"></td>
+        </tr>
+
+        <tr>
+            <th>正常工時</th>
+            <td id="pNormal"></td>
+
+            <th>加班工時</th>
+            <td id="pOvertime"></td>
+        </tr>
+
+        <tr>
+            <th>總工時</th>
+            <td colspan="3" id="pTotal"></td>
+        </tr>
+
+    </table>
+
+    <br>
+
+
+    <table class="print-table">
+
+        <tr>
+            <th class="section">
+                故障現象
+            </th>
+        </tr>
+
+        <tr>
+            <td class="problem" id="pProblem"></td>
+        </tr>
+
+    </table>
+
+    <br>
+
+
+    <table class="print-table">
+
+        <tr>
+            <th class="section">
+                檢查與處理內容
+            </th>
+        </tr>
+
+        <tr>
+            <td class="treatment" id="pTreatment"></td>
+        </tr>
+
+    </table>
+
+    <br>
+
+
+    <table class="print-table">
+
+        <tr>
+            <th colspan="3" class="section">
+                更換零件
+            </th>
+        </tr>
+
+        <tr>
+            <th style="width:45%;">零件名稱</th>
+            <th style="width:40%;">料號 P/N</th>
+            <th style="width:15%;">數量</th>
+        </tr>
+
+        <tbody id="pPartsBody"></tbody>
+
+    </table>
+
+    <br>
+
+
+    <table class="print-table">
+
+        <tr>
+            <th class="section">
+                備註
+            </th>
+        </tr>
+
+        <tr>
+            <td class="notes" id="pNotes"></td>
+        </tr>
+
+    </table>
+
+    <br>
+
+
+    <table class="print-table">
+
+        <tr>
+            <th colspan="4" class="section">
+                客戶確認
+            </th>
+        </tr>
+
+        <tr>
+            <th>客戶簽名人</th>
+            <td id="pSigner"></td>
+
+            <th>簽名日期</th>
+            <td id="pSignDate"></td>
+        </tr>
+
+        <tr>
+            <th>客戶簽名</th>
+
+            <td colspan="3"
+                class="signature-cell">
+
+                <img
+                    id="pSignature"
+                    class="signature-image">
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <th>簽名時間</th>
+
+            <td colspan="3"
+                id="pSignTime">
+            </td>
+
+        </tr>
+
+    </table>
+
+
+    <div class="footer">
+        本服務單記錄本次設備維修服務內容，經客戶確認後作為服務紀錄。
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==================================================
+   工具
+================================================== */
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+
+/* ==================================================
+   日期
+================================================== */
+
+function dateString(d) {
+
+    return d.getFullYear()
+        + "-"
+        + String(d.getMonth() + 1).padStart(2, "0")
+        + "-"
+        + String(d.getDate()).padStart(2, "0");
+}
+
+
+function timeString(d) {
+
+    return String(d.getHours()).padStart(2, "0")
+        + ":"
+        + String(d.getMinutes()).padStart(2, "0");
+}
+
+
+/* ==================================================
+   服務單號
+================================================== */
+
+function generateServiceNo() {
+
+    const d = new Date();
+
+    return "FH-"
+        + d.getFullYear()
+        + String(d.getMonth()+1).padStart(2,"0")
+        + String(d.getDate()).padStart(2,"0")
+        + "-"
+        + String(d.getHours()).padStart(2,"0")
+        + String(d.getMinutes()).padStart(2,"0")
+        + String(d.getSeconds()).padStart(2,"0");
+}
+
+
+/* ==================================================
+   初始化
+================================================== */
+
+function init() {
+
+    const today = new Date();
+
+    $("serviceNo").value =
+        generateServiceNo();
+
+    $("startDate").value =
+        dateString(today);
+
+    $("endDate").value =
+        dateString(today);
+
+    addPart();
+
+    resizeCanvas();
+
+    loadData();
+}
+
+
+window.addEventListener("load", init);
+
+
+/* ==================================================
+   工時計算
+================================================== */
+
+function calculateHours() {
+
+    const sd = $("startDate").value;
+    const st = $("startTime").value;
+
+    const ed = $("endDate").value;
+    const et = $("endTime").value;
+
+    if (!sd || !st || !ed || !et) {
+        return;
+    }
+
+    const start =
+        new Date(sd + "T" + st);
+
+    const end =
+        new Date(ed + "T" + et);
+
+    if (end <= start) {
+
+        $("normalHours").value = "0.0";
+        $("overtimeHours").value = "0.0";
+        $("totalHours").value = "0.0";
+
+        return;
+    }
+
+    let normal = 0;
+    let overtime = 0;
+
+    let current = new Date(start);
+
+    while (current < end) {
+
+        const h =
+            current.getHours()
+            + current.getMinutes() / 60;
+
+        if (h >= 8.5 && h < 17.5) {
+
+            normal++;
+
+        } else {
+
+            overtime++;
+
+        }
+
+        current.setMinutes(
+            current.getMinutes() + 1
+        );
+    }
+
+    $("normalHours").value =
+        (normal / 60).toFixed(1);
+
+    $("overtimeHours").value =
+        (overtime / 60).toFixed(1);
+
+    $("totalHours").value =
+        ((normal + overtime) / 60).toFixed(1);
+}
+
+
+function calculateTotal() {
+
+    const normal =
+        parseFloat($("normalHours").value) || 0;
+
+    const overtime =
+        parseFloat($("overtimeHours").value) || 0;
+
+    $("totalHours").value =
+        (normal + overtime).toFixed(1);
+}
+
+
+[
+    "startDate",
+    "startTime",
+    "endDate",
+    "endTime"
+].forEach(id => {
+
+    $(id).addEventListener(
+        "change",
+        calculateHours
+    );
+
+});
+
+
+$("normalHours").addEventListener(
+    "input",
+    calculateTotal
+);
+
+$("overtimeHours").addEventListener(
+    "input",
+    calculateTotal
+);
+
+
+/* ==================================================
+   零件
+================================================== */
+
+function addPart(
+    name = "",
+    pn = "",
+    qty = "1"
+) {
+
+    const tr =
+        document.createElement("tr");
+
+    tr.innerHTML = `
+
+        <td>
+            <input
+                class="part-name"
+                value="${escapeHtml(name)}"
+                placeholder="零件名稱">
+        </td>
+
+        <td>
+            <input
+                class="part-pn"
+                value="${escapeHtml(pn)}"
+                placeholder="P/N">
+        </td>
+
+        <td>
+            <input
+                class="part-qty"
+                type="number"
+                min="1"
+                value="${escapeHtml(qty)}">
+        </td>
+
+        <td>
+            <button
+                class="btn btn-danger"
+                onclick="this.closest('tr').remove()">
+                ×
+            </button>
+        </td>
+
+    `;
+
+    $("partsBody").appendChild(tr);
+}
+
+
+function escapeHtml(v) {
+
+    return String(v)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+/* ==================================================
+   Canvas
+================================================== */
+
+const canvas =
+    $("signatureCanvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+let drawing = false;
+
+let hasSignature = false;
+
+
+function resizeCanvas() {
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+    const ratio =
+        window.devicePixelRatio || 1;
+
+    canvas.width =
+        rect.width * ratio;
+
+    canvas.height =
+        rect.height * ratio;
+
+    ctx.scale(ratio, ratio);
+
+    ctx.lineWidth = 2;
+
+    ctx.lineCap = "round";
+
+    ctx.lineJoin = "round";
+}
+
+
+function position(e) {
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+    return {
+
+        x: e.clientX - rect.left,
+
+        y: e.clientY - rect.top
+
+    };
+}
+
+
+canvas.addEventListener(
+    "pointerdown",
+    e => {
+
+        e.preventDefault();
+
+        drawing = true;
+
+        hasSignature = true;
+
+        const p = position(e);
+
+        ctx.beginPath();
+
+        ctx.moveTo(p.x,p.y);
+
+        recordSignatureTime();
+    }
+);
+
+
+canvas.addEventListener(
+    "pointermove",
+    e => {
+
+        if (!drawing) return;
+
+        e.preventDefault();
+
+        const p = position(e);
+
+        ctx.lineTo(p.x,p.y);
+
+        ctx.stroke();
+    }
+);
+
+
+canvas.addEventListener(
+    "pointerup",
+    () => {
+
+        drawing = false;
+
+    }
+);
+
+
+canvas.addEventListener(
+    "pointercancel",
+    () => {
+
+        drawing = false;
+
+    }
+);
+
+
+/* ==================================================
+   簽名時間
+================================================== */
+
+function recordSignatureTime() {
+
+    if ($("signDate").value ||
+        $("signTime").value) {
+
+        return;
+    }
+
+    const d = new Date();
+
+    $("signDate").value =
+        dateString(d);
+
+    $("signTime").value =
+        timeString(d);
+
+}
+
+
+/* ==================================================
+   清除簽名
+================================================== */
+
+function clearSignature() {
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    hasSignature = false;
+
+    $("signDate").value = "";
+
+    $("signTime").value = "";
+}
+
+
+/* ==================================================
+   暫存
+================================================== */
+
+function collectData() {
+
+    const parts = [];
+
+    document
+        .querySelectorAll("#partsBody tr")
+        .forEach(row => {
+
+            parts.push({
+
+                name:
+                    row.querySelector(".part-name").value,
+
+                pn:
+                    row.querySelector(".part-pn").value,
+
+                qty:
+                    row.querySelector(".part-qty").value
+
+            });
+
+        });
+
+
+    return {
+
+        customer: $("customer").value,
+
+        machine: $("machine").value,
+
+        asset: $("asset").value,
+
+        serviceNo: $("serviceNo").value,
+
+        engineer: $("engineer").value,
+
+        startDate: $("startDate").value,
+
+        startTime: $("startTime").value,
+
+        endDate: $("endDate").value,
+
+        endTime: $("endTime").value,
+
+        normalHours: $("normalHours").value,
+
+        overtimeHours: $("overtimeHours").value,
+
+        totalHours: $("totalHours").value,
+
+        problem: $("problem").value,
+
+        treatment: $("treatment").value,
+
+        notes: $("notes").value,
+
+        signer: $("signer").value,
+
+        signDate: $("signDate").value,
+
+        signTime: $("signTime").value,
+
+        hasSignature: hasSignature,
+
+        signature:
+            hasSignature
+            ? canvas.toDataURL("image/png")
+            : "",
+
+        parts: parts
+
+    };
+}
+
+
+function saveData() {
+
+    localStorage.setItem(
+        "farhsiu_service_form",
+        JSON.stringify(collectData())
+    );
+
+    $("status").textContent =
+        "✓ 已暫存服務單資料";
+}
+
+
+/* ==================================================
+   載入暫存資料
+================================================== */
+
+function loadData() {
+
+    const raw =
+        localStorage.getItem(
+            "farhsiu_service_form"
+        );
+
+    if (!raw) return;
+
+    try {
+
+        const d = JSON.parse(raw);
+
+        $("customer").value =
+            d.customer || "";
+
+        $("machine").value =
+            d.machine || "";
+
+        $("asset").value =
+            d.asset || "";
+
+        $("serviceNo").value =
+            d.serviceNo || generateServiceNo();
+
+        $("engineer").value =
+            d.engineer || "";
+
+        $("startDate").value =
+            d.startDate || "";
+
+        $("startTime").value =
+            d.startTime || "";
+
+        $("endDate").value =
+            d.endDate || "";
+
+        $("endTime").value =
+            d.endTime || "";
+
+        $("normalHours").value =
+            d.normalHours || "";
+
+        $("overtimeHours").value =
+            d.overtimeHours || "";
+
+        $("totalHours").value =
+            d.totalHours || "";
+
+        $("problem").value =
+            d.problem || "";
+
+        $("treatment").value =
+            d.treatment || "";
+
+        $("notes").value =
+            d.notes || "";
+
+        $("signer").value =
+            d.signer || "";
+
+        $("signDate").value =
+            d.signDate || "";
+
+        $("signTime").value =
+            d.signTime || "";
+
+
+        $("partsBody").innerHTML = "";
+
+        if (d.parts && d.parts.length) {
+
+            d.parts.forEach(p => {
+
+                addPart(
+                    p.name,
+                    p.pn,
+                    p.qty
+                );
+
+            });
+
+        } else {
+
+            addPart();
+
+        }
+
+
+        if (d.signature) {
+
+            const img = new Image();
+
+            img.onload = function() {
+
+                ctx.drawImage(
+                    img,
+                    0,
+                    0,
+                    canvas.clientWidth,
+                    canvas.clientHeight
+                );
+
+                hasSignature = true;
+            };
+
+            img.src = d.signature;
+        }
+
+    }
+
+    catch(e) {
+
+        console.log(e);
+
+    }
+}
+
+
+/* ==================================================
+   清除全部
+================================================== */
+
+function clearAll() {
+
+    if (!confirm(
+        "確定要清除目前服務單全部資料嗎？"
+    )) {
+
+        return;
+    }
+
+    localStorage.removeItem(
+        "farhsiu_service_form"
+    );
+
+    location.reload();
+}
+
+
+/* ==================================================
+   A4 PDF
+================================================== */
+
+function preparePrint() {
+
+    calculateTotal();
+
+    $("pCustomer").textContent =
+        $("customer").value;
+
+    $("pMachine").textContent =
+        $("machine").value;
+
+    $("pAsset").textContent =
+        $("asset").value;
+
+    $("pServiceNo").textContent =
+        $("serviceNo").value;
+
+    $("pEngineer").textContent =
+        $("engineer").value;
+
+
+    let serviceDate = "";
+
+    if ($("startDate").value ===
+        $("endDate").value) {
+
+        serviceDate =
+            $("startDate").value;
+
+    } else {
+
+        serviceDate =
+            $("startDate").value
+            + " ～ "
+            + $("endDate").value;
+    }
+
+
+    $("pServiceDate").textContent =
+        serviceDate;
+
+    $("pStart").textContent =
+        $("startTime").value;
+
+    $("pEnd").textContent =
+        $("endTime").value;
+
+    $("pNormal").textContent =
+        ($("normalHours").value || "0")
+        + " 小時";
+
+    $("pOvertime").textContent =
+        ($("overtimeHours").value || "0")
+        + " 小時";
+
+    $("pTotal").textContent =
+        ($("totalHours").value || "0")
+        + " 小時";
+
+    $("pProblem").textContent =
+        $("problem").value;
+
+    $("pTreatment").textContent =
+        $("treatment").value;
+
+    $("pNotes").textContent =
+        $("notes").value;
+
+    $("pSigner").textContent =
+        $("signer").value;
+
+    $("pSignDate").textContent =
+        $("signDate").value;
+
+    $("pSignTime").textContent =
+        $("signTime").value;
+
+
+    /* 零件 */
+
+    const body =
+        $("pPartsBody");
+
+    body.innerHTML = "";
+
+    const rows =
+        document.querySelectorAll(
+            "#partsBody tr"
+        );
+
+    if (rows.length === 0) {
+
+        const tr =
+            document.createElement("tr");
+
+        tr.innerHTML =
+            "<td>&nbsp;</td>"
+            + "<td>&nbsp;</td>"
+            + "<td>&nbsp;</td>";
+
+        body.appendChild(tr);
+
+    } else {
+
+        rows.forEach(row => {
+
+            const tr =
+                document.createElement("tr");
+
+            const td1 =
+                document.createElement("td");
+
+            const td2 =
+                document.createElement("td");
+
+            const td3 =
+                document.createElement("td");
+
+            td1.textContent =
+                row.querySelector(
+                    ".part-name"
+                ).value;
+
+            td2.textContent =
+                row.querySelector(
+                    ".part-pn"
+                ).value;
+
+            td3.textContent =
+                row.querySelector(
+                    ".part-qty"
+                ).value;
+
+            tr.appendChild(td1);
+
+            tr.appendChild(td2);
+
+            tr.appendChild(td3);
+
+            body.appendChild(tr);
+
+        });
+    }
+
+
+    /* 簽名 */
+
+    if (hasSignature) {
+
+        $("pSignature").src =
+            canvas.toDataURL("image/png");
+
+        $("pSignature").style.display =
+            "inline-block";
+
+    } else {
+
+        $("pSignature").style.display =
+            "none";
+    }
+
+
+    saveData();
+
+
+    setTimeout(() => {
+
+        window.print();
+
+    }, 200);
+
+}
+
+
+/* ==================================================
+   Service Worker 註冊
+================================================== */
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+        "load",
+        () => {
+
+            navigator.serviceWorker
+                .register("service-worker.js")
+                .then(() => {
+
+                    console.log(
+                        "PWA Service Worker registered."
+                    );
+
+                })
+                .catch(err => {
+
+                    console.log(
+                        "Service Worker error:",
+                        err
+                    );
+
+                });
+
+        }
+    );
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "華旭客服維修服務單",
+  "short_name": "華旭維修",
+  "description": "華旭實業有限公司客服維修服務單",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f2f2",
+  "theme_color": "#111111",
+  "lang": "zh-TW",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
